@@ -35,7 +35,7 @@ pub enum GlobalOperators {
     Assignment      // x = y
 }
 
-enum Builtins {
+pub enum Builtins {
     SingleLineComment,
     VariableData
 }
