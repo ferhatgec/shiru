@@ -11,9 +11,31 @@
 mod parse;
 mod shiru_cpp;
 
+pub enum GlobalOperators {
+    Addition   = 0, // x + y
+    Subtraction   , // x - y
+    Division      , // x / y
+    Multiplication, // x * y
+    Modulo        , // x % y
+
+    GreaterThan   , // x > y
+    LessThan      , // x < y
+
+    Not           , // !(x == y)
+
+    AndBit        , // &
+    OrBit         , // |
+    XorBit        , // ^
+    NotBit        , // ~
+
+    Assignment      // x = y
+}
+
 pub struct LanguageData {
-    pub(crate) keywords: Vec<String>,
-    pub(crate) colors  : Vec<String>
+    pub(crate) keywords      : Vec<String>,
+    pub(crate) colors        : Vec<String>,
+
+    pub(crate) global_colors : Vec<String>
 }
 
 pub struct Highlight {
@@ -29,9 +51,23 @@ impl Highlight {
         let temporary = String::from(data);
         let mut i: usize = 0;
 
-        for token in &self.data.keywords {
-            if token == &temporary {
-                return format!("{}{}\x1b[0m ", self.data.colors.get(i).unwrap(), temporary);
+        if temporary.len() > 1 {
+            for token in &self.data.keywords {
+                if token == &temporary {
+                    return format!("{}{}\x1b[0m ", self.data.colors.get(i).unwrap(), temporary);
+                }
+
+                i += 1;
+            }
+
+            return temporary;
+        }
+
+        let temporary_op: char = temporary.chars().next().unwrap();
+
+        for operator in parse::parse::GLOBAL_OPERATORS {
+            if operator == &temporary_op {
+                return format!("{}{}\x1b[0m", self.data.global_colors.get(i).unwrap(), temporary);
             }
 
             i += 1;
@@ -57,7 +93,8 @@ mod tests {
             highlight: Highlight {
                 data: LanguageData {
                     keywords: vec![],
-                    colors: vec![]
+                    colors: vec![],
+                    global_colors: vec![]
                 }
             },
             tokens: vec![],
@@ -67,14 +104,16 @@ mod tests {
         let mut highlight: Highlight = Highlight {
             data: LanguageData {
                 keywords: vec![],
-                colors: vec![]
+                colors: vec![],
+                global_colors: vec![]
             }
         };
 
         highlight.init(
             LanguageData {
                 keywords: c_plus_plus::init_keywords(),
-                colors  : c_plus_plus::init_colors()
+                colors  : c_plus_plus::init_colors(),
+                global_colors: c_plus_plus::init_op_colors()
             }
         );
 

@@ -47,5 +47,27 @@ pub mod c_plus_plus {
         ]
     }
 
+    pub fn init_op_colors() -> Vec<String> {
+        vec![
+            ok("\x1b[0;34m"), // GlobalOperators::Addition
+            ok("\x1b[0;34m"), // GlobalOperators::Subtraction
+            ok("\x1b[0;34m"), // GlobalOperators::Division
+            ok("\x1b[0;34m"), // GlobalOperators::Multiplication
+            ok("\x1b[0;34m"), // GlobalOperators::Modulo
+
+            ok("\x1b[0;32m"), // GlobalOperators::GreaterThan
+            ok("\x1b[0;32m"), // GlobalOperators::LessThan
+
+            ok("\x1b[0;91m"), // GlobalOperators::Not
+
+            ok("\x1b[0;94m"), // GlobalOperators::AndBit
+            ok("\x1b[0;94m"), // GlobalOperators::OrBit
+            ok("\x1b[0;94m"), // GlobalOperators::XorBit
+            ok("\x1b[0;94m"), // GlobalOperators::NotBit
+
+            ok("\x1b[0;97m")  // GlobalOperators::Assignment
+        ]
+    }
+
     pub fn ok(data: &str) -> String { data.to_string() }
 }

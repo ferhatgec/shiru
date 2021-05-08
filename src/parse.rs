@@ -25,6 +25,26 @@ pub mod parse {
         '[',
         ']'
     ];
+
+    pub static GLOBAL_OPERATORS: &'static [char] = &[
+        '+', // GlobalOperators::Addition
+        '-', // GlobalOperators::Subtraction
+        '/', // GlobalOperators::Division
+        '*', // GlobalOperators::Multiplication
+        '%', // GlobalOperators::Modulo
+
+        '>', // GlobalOperators::GreaterThan
+        '<', // GlobalOperators::LessThan
+
+        '!', // GlobalOperators::Not
+
+        '&', // GlobalOperators::AndBit
+        '|', // GlobalOperators::OrBit
+        '^', // GlobalOperators::XorBit
+        '~', // GlobalOperators::NotBit
+
+        '='  // GlobalOperators::Assignment
+    ];
 }
 
 impl Parse {
