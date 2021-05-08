@@ -10,6 +10,7 @@
 
 mod parse;
 mod shiru_cpp;
+mod colorful;
 
 pub enum GlobalOperators {
     Addition   = 0, // x + y
@@ -123,8 +124,9 @@ mod tests {
                     "\
                     #include <iostream>\n \
                     \n                                        \
-                    int main(int argc) {\n                    \
-                        std::cout << \"Hello, world!\\n\";\n  \
+                    int main(int argc, char** argv) {\n \
+                        int test = 10 + 20;
+                        std::cout << \"10 + 20 = \" << test << '\\n';\n \
                     }\
                     ")));
     }
