@@ -13,6 +13,7 @@ use crate::Builtins::{SingleLineComment, VariableData};
 mod parse;
 mod shiru_cpp;
 mod colorful;
+mod shiru_python;
 
 pub enum GlobalOperators {
     Addition   = 0, // x + y
@@ -106,6 +107,7 @@ mod tests {
         LanguageData,
 
         shiru_cpp::c_plus_plus,
+        shiru_python::python,
 
         parse::{ Parse }
     };
@@ -149,14 +151,64 @@ mod tests {
 
         parse.init(highlight);
 
-        println!("{}",parse.parse(format!("{}",
-                    "\
-                    #include <iostream>\n \
-                    // Hello, world\n \
-                    int main(int argc, char** argv) {\n \
-                        int test = 10 + 20;
-                        std::cout << \"10 + 20 = \" << test << '\\n';\n \
-                    }\
-                    ")));
+        println!("{}",
+                 parse.parse(format!("{}",
+                 "\
+                 #include <iostream>\n \
+                 // Hello, world\n \
+                 int main(int argc, char** argv) {\n \
+                     int test = 10 + 20;
+                     std::cout << \"10 + 20 = \" << test << '\\n';\n \
+                 }\
+                 ")));
+    }
+
+    #[test]
+    fn python() {
+        let mut parse   : Parse = Parse {
+            highlight: Highlight {
+                data: LanguageData {
+                    keywords: vec![],
+                    colors: vec![],
+                    builtins: vec![],
+                    builtin_colors: vec![],
+                    global_colors: vec![]
+                }
+            },
+            tokens: vec![],
+            is_data: false,
+            is_comment: false
+        };
+
+        let mut highlight: Highlight = Highlight {
+            data: LanguageData {
+                keywords: vec![],
+                colors: vec![],
+                builtins: vec![],
+                builtin_colors: vec![],
+                global_colors: vec![]
+            }
+        };
+
+        highlight.init(
+            LanguageData {
+                keywords: python::init_keywords(),
+                colors  : python::init_colors(),
+                builtins: python::built_in_keywords(),
+                builtin_colors: python::built_in_colors(),
+                global_colors: python::init_op_colors()
+            }
+        );
+
+        parse.init(highlight);
+
+        println!("{}",
+                 parse.parse(format!("{}",
+                 "# Hello, world\n \
+                 import sys\n \
+                 test = 10 + 20\n \
+                 if test == 30:\n \
+                    print('10 + 20 =' , test)\
+                 ")));
     }
 }

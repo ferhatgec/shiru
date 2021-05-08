@@ -1,5 +1,5 @@
 // What?
-// C++ syntax interface for ShiRu.
+// Python syntax interface for ShiRu.
 //
 // MIT License
 //
@@ -8,30 +8,22 @@
 //
 //
 
-pub mod c_plus_plus {
+pub mod python {
     use crate::colorful::{ colorful, Colors, Types };
 
     pub fn init_keywords() -> Vec<String> {
         vec![
             ok("int"),
             ok("float"),
-            ok("double"),
-            ok("long"),
-
-            ok("int8_t"),
-            ok("int16_t"),
-            ok("int32_t"),
-            ok("int64_t"),
-
-            ok("uint8_t"),
-            ok("uint16_t"),
-            ok("uint32_t"),
-            ok("uint64_t"),
+            ok("str"),
+            ok("char"),
 
             ok("if"),
+            ok("elif"),
             ok("else"),
 
-            ok("#include")
+            ok("import"),
+            ok("from")
         ]
     }
 
@@ -39,31 +31,22 @@ pub mod c_plus_plus {
         vec![
             colorful::ok(Colors::Red, Types::Light), // int
             colorful::ok(Colors::Red, Types::Light), // float
-            colorful::ok(Colors::Red, Types::Light), // double
-            colorful::ok(Colors::Red, Types::Light), // long
+            colorful::ok(Colors::Red, Types::Light), // str
             colorful::ok(Colors::Red, Types::Light), // char
 
-            colorful::ok(Colors::Red, Types::Light), // int8_t
-            colorful::ok(Colors::Red, Types::Light), // int16_t
-            colorful::ok(Colors::Red, Types::Light), // int32_t
-            colorful::ok(Colors::Red, Types::Light), // int64_t
-
-            colorful::ok(Colors::Red, Types::Light), // uint8_t
-            colorful::ok(Colors::Red, Types::Light), // uint16_t
-            colorful::ok(Colors::Red, Types::Light), // uint32_t
-            colorful::ok(Colors::Red, Types::Light), // uint64_t
-
             colorful::ok(Colors::LightRed, Types::Light), // if
+            colorful::ok(Colors::LightRed, Types::Light), // elif
             colorful::ok(Colors::LightRed, Types::Light), // else
 
-            colorful::ok(Colors::Yellow, Types::Light  )  // #include
+            colorful::ok(Colors::Yellow, Types::Light     ), // import
+            colorful::ok(Colors::LightYellow, Types::Light)
         ]
     }
 
     pub fn built_in_keywords() -> Vec<String> {
         vec![
-            ok("//"),
-            ok("\"")
+            ok("#"),
+            ok("'")
         ]
     }
 
