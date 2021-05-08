@@ -6,13 +6,15 @@
 //
 
 use crate::Highlight;
+use crate::Builtins::{VariableData, SingleLineComment};
 
 pub struct Parse {
-    pub(crate) highlight: Highlight,
+    pub(crate) highlight : Highlight,
 
-    pub(crate) tokens   : Vec<String>,
+    pub(crate) tokens    : Vec<String>,
 
-    pub(crate) is_data  : bool
+    pub(crate) is_data   : bool       ,
+    pub(crate) is_comment: bool
 }
 
 pub mod parse {
@@ -68,20 +70,44 @@ impl Parse {
         for token in &self.tokens {
             if token.is_empty() { continue; }
 
-            if self.is_data {
-                if token.ends_with('"') {
-                    generated.push_str(&token);
+            if self.is_comment {
+                if !token.ends_with('\n') {
+                    generated.push_str(&self.highlight.comment(token));
 
                     continue;
                 }
 
-                self.is_data = false;
+                self.is_comment = false;
             }
 
-            if token.starts_with('"') || token.ends_with('"') {
+            if self.is_data {
+                generated.push_str(&self.highlight.var_data(token));
+
+                if !token.ends_with(self.highlight.data.builtins[VariableData as usize]
+                    .chars().next().unwrap()) {
+                    continue;
+                }
+
+                self.is_data = false;
+
+                continue;
+            }
+
+            if token == &self.highlight.data.builtins[SingleLineComment as usize] {
+                self.is_comment = true;
+
+                generated.push_str(&self.highlight.comment(token));
+
+                continue;
+            }
+
+            if token.starts_with(self.highlight.data.builtins[VariableData as usize]
+                .chars().next().unwrap())
+                || token.ends_with(self.highlight.data.builtins[VariableData as usize]
+                .chars().next().unwrap()) {
                 self.is_data = true;
 
-                generated.push_str(format!("{} ", token).as_str());
+                generated.push_str(format!("{} ", self.highlight.var_data(token)).as_str());
 
                 continue;
             }

@@ -8,6 +8,8 @@
 //
 //
 
+use crate::Builtins::{SingleLineComment, VariableData};
+
 mod parse;
 mod shiru_cpp;
 mod colorful;
@@ -32,9 +34,17 @@ pub enum GlobalOperators {
     Assignment      // x = y
 }
 
+enum Builtins {
+    SingleLineComment,
+    VariableData
+}
+
 pub struct LanguageData {
     pub(crate) keywords      : Vec<String>,
     pub(crate) colors        : Vec<String>,
+
+    pub(crate) builtins      : Vec<String>,
+    pub(crate) builtin_colors: Vec<String>,
 
     pub(crate) global_colors : Vec<String>
 }
@@ -46,6 +56,18 @@ pub struct Highlight {
 impl Highlight {
     pub fn init(&mut self, data: LanguageData) {
         self.data = data;
+    }
+
+    pub fn comment(&self, data: &String) -> String {
+        format!("{}{}\x1b[0m ",
+                self.data.builtin_colors.get(SingleLineComment as usize).unwrap(),
+                data)
+    }
+
+    pub fn var_data(&self, data: &String) -> String {
+        format!("{}{}\x1b[0m ",
+                self.data.builtin_colors.get(VariableData as usize).unwrap(),
+                data)
     }
 
     pub fn colorize(&mut self, data: &String) -> String {
@@ -95,17 +117,22 @@ mod tests {
                 data: LanguageData {
                     keywords: vec![],
                     colors: vec![],
+                    builtins: vec![],
+                    builtin_colors: vec![],
                     global_colors: vec![]
                 }
             },
             tokens: vec![],
-            is_data: false
+            is_data: false,
+            is_comment: false
         };
 
         let mut highlight: Highlight = Highlight {
             data: LanguageData {
                 keywords: vec![],
                 colors: vec![],
+                builtins: vec![],
+                builtin_colors: vec![],
                 global_colors: vec![]
             }
         };
@@ -114,6 +141,8 @@ mod tests {
             LanguageData {
                 keywords: c_plus_plus::init_keywords(),
                 colors  : c_plus_plus::init_colors(),
+                builtins: c_plus_plus::built_in_keywords(),
+                builtin_colors: c_plus_plus::built_in_colors(),
                 global_colors: c_plus_plus::init_op_colors()
             }
         );
@@ -123,7 +152,7 @@ mod tests {
         println!("{}",parse.parse(format!("{}",
                     "\
                     #include <iostream>\n \
-                    \n                                        \
+                    // Hello, world\n \
                     int main(int argc, char** argv) {\n \
                         int test = 10 + 20;
                         std::cout << \"10 + 20 = \" << test << '\\n';\n \

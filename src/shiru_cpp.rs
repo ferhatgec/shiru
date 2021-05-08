@@ -50,6 +50,20 @@ pub mod c_plus_plus {
         ]
     }
 
+    pub fn built_in_keywords() -> Vec<String> {
+        vec![
+            ok("//"),
+            ok("\"")
+        ]
+    }
+
+    pub fn built_in_colors() -> Vec<String> {
+        vec![
+            colorful::ok(Colors::LightBlack, Types::Light), // SingleLineComment,
+            colorful::ok(Colors::White,      Types::Light)  // VariableData
+        ]
+    }
+
     pub fn init_op_colors() -> Vec<String> {
         vec![
             colorful::ok(Colors::Yellow, Types::Light), // GlobalOperators::Addition    0
