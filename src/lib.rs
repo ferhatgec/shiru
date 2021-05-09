@@ -46,13 +46,13 @@ pub enum Builtins {
 }
 
 pub struct LanguageData {
-    pub(crate) keywords      : Vec<String>,
-    pub(crate) colors        : Vec<String>,
+    pub keywords      : Vec<String>,
+    pub colors        : Vec<String>,
 
-    pub(crate) builtins      : Vec<String>,
-    pub(crate) builtin_colors: Vec<String>,
+    pub builtins      : Vec<String>,
+    pub builtin_colors: Vec<String>,
 
-    pub(crate) global_colors : Vec<String>
+    pub global_colors : Vec<String>
 }
 
 mod tests {

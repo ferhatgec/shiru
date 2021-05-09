@@ -12,16 +12,16 @@ use crate::{
 };
 
 pub struct Parse {
-    pub(crate) highlight : Highlight,
+    pub highlight : Highlight,
 
-    pub(crate) tokens    : Vec<String>,
+    pub tokens    : Vec<String>,
 
-    pub(crate) is_data   : bool       ,
-    pub(crate) is_comment: bool
+    pub is_data   : bool       ,
+    pub is_comment: bool
 }
 
 pub mod parse {
-    pub(crate) static TOKENS: &'static [char] = &[
+    pub static TOKENS: &'static [char] = &[
         '<',
         '>',
         '(',

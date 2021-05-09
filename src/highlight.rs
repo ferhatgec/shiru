@@ -15,7 +15,7 @@ use crate::{
 };
 
 pub struct Highlight {
-    pub(crate) data: LanguageData
+    pub data: LanguageData
 }
 
 impl Highlight {
