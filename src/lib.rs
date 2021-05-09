@@ -8,12 +8,12 @@
 //
 //
 
-mod parse;
-mod colorful;
-mod highlight;
+pub mod parse;
+pub mod colorful;
+pub mod highlight;
 
-mod shiru_cpp;
-mod shiru_python;
+pub mod shiru_cpp;
+pub mod shiru_python;
 
 use crate::{
     highlight::Highlight,
