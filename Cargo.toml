@@ -15,9 +15,12 @@ include = [
     "Cargo.toml",
 
     "src/lib.rs",
+    "src/colorful.rs",
+    "src/highlight.rs",
     "src/parse.rs",
 
-    "src/shiru_cpp.rs"
+    "src/shiru_cpp.rs",
+    "src/shiru_python.rs"
 ]
 
 [dependencies]
