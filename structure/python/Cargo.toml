@@ -1,0 +1,8 @@
+[package]
+name = "shiru_python"
+version = "0.1.0"
+authors = ["\"ferhatgec\""]
+edition = "2018"
+
+[dependencies]
+shiru = "0.1.7"
