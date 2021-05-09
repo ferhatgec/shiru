@@ -5,8 +5,11 @@
 //
 //
 
-use crate::Highlight;
-use crate::Builtins::{VariableData, SingleLineComment};
+use crate::{
+    highlight::Highlight,
+
+    Builtins::{ VariableData, SingleLineComment }
+};
 
 pub struct Parse {
     pub(crate) highlight : Highlight,

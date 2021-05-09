@@ -8,12 +8,17 @@
 //
 //
 
-use crate::Builtins::{SingleLineComment, VariableData};
-
 mod parse;
-mod shiru_cpp;
 mod colorful;
+mod highlight;
+
+mod shiru_cpp;
 mod shiru_python;
+
+use crate::{
+    highlight::Highlight,
+    Builtins::{ SingleLineComment, VariableData }
+};
 
 pub enum GlobalOperators {
     Addition   = 0, // x + y
@@ -48,57 +53,6 @@ pub struct LanguageData {
     pub(crate) builtin_colors: Vec<String>,
 
     pub(crate) global_colors : Vec<String>
-}
-
-pub struct Highlight {
-    pub(crate) data: LanguageData
-}
-
-impl Highlight {
-    pub fn init(&mut self, data: LanguageData) {
-        self.data = data;
-    }
-
-    pub fn comment(&self, data: &String) -> String {
-        format!("{}{}\x1b[0m ",
-                self.data.builtin_colors.get(SingleLineComment as usize).unwrap(),
-                data)
-    }
-
-    pub fn var_data(&self, data: &String) -> String {
-        format!("{}{}\x1b[0m ",
-                self.data.builtin_colors.get(VariableData as usize).unwrap(),
-                data)
-    }
-
-    pub fn colorize(&mut self, data: &String) -> String {
-        let temporary = String::from(data);
-        let mut i: usize = 0;
-
-        if temporary.len() > 1 {
-            for token in &self.data.keywords {
-                if token == &temporary {
-                    return format!("{}{}\x1b[0m ", self.data.colors.get(i).unwrap(), temporary);
-                }
-
-                i += 1;
-            }
-
-            return temporary;
-        }
-
-        let temporary_op: char = temporary.chars().next().unwrap();
-
-        for operator in parse::parse::GLOBAL_OPERATORS {
-            if operator == &temporary_op {
-                return format!("{}{}\x1b[0m", self.data.global_colors.get(i).unwrap(), temporary);
-            }
-
-            i += 1;
-        }
-
-        temporary
-    }
 }
 
 mod tests {
