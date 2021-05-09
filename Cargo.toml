@@ -1,6 +1,6 @@
 [package]
 name = "shiru"
-version = "0.1.6"
+version = "0.1.7"
 authors = ["\"ferhatgec\""]
 edition = "2018"
 description = "Extensible syntax highlighting engine, Rust implementation of ShiC++"

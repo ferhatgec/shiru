@@ -15,7 +15,7 @@ pub mod highlight;
 pub mod shiru_cpp;
 pub mod shiru_python;
 
-use crate::{
+pub use crate::{
     highlight::Highlight,
     Builtins::{ SingleLineComment, VariableData }
 };
